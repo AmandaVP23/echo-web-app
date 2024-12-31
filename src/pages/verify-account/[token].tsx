@@ -1,46 +1,83 @@
-import { GetServerSideProps } from 'next';
+import { API_URL } from '@/settings';
 import axios from 'axios';
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import Logo from '../../assets/images/logo.svg';
+import LogoWithDrawings from '../../assets/images/logo-with-drawing.svg';
+import Image from 'next/image';
 
-interface VerifyAccountProps {
-    isSuccess: boolean;
-}
+export default function VerifyAccountPage() {
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [showLoader, setShowLoader] = useState(true);
 
-export const getServerSideProps: GetServerSideProps<VerifyAccountProps> = async (context) => {
-    const { token } = context.params as { token: string };
+    const params = useParams<{ token: string }>();
 
-    console.log('token', token);
+    useEffect(() => {
+        requestToVerifyAccount();
+    }, [params]);
 
-    if (!token) {
-        return {
-            props: { success: false }
+    const requestToVerifyAccount = async () => {
+        if (!params?.token) {
+            setShowLoader(false);
+            setShowSuccess(false);
+            return;
         }
+
+        try {
+            await axios.get(`${API_URL}/users/verify/${params.token}`);
+            setShowSuccess(true);
+        } catch {
+            setShowSuccess(false);
+        } finally {
+            setShowLoader(false);
+        }
+    };
+
+    const requestNewVerificationToken = () => {
+        // todo - implement
+    } 
+
+    const openDesktopApp = () => {
+        // todo - implement
     }
 
-    try {
-        await axios.get(`http://localhost:8080/users/verify/${token}`);
-        return {
-            props: {
-                isSuccess: true,
-            }
-        }
-    } catch (e) {
-        console.log((e as any).response.data)
-        return {
-            props: {
-                isSuccess: false,
-            }
-        }
-    }
-}
+    const renderSuccess = () => {
+        return (
+            <div className="content-wrapper">
+                <Image src={LogoWithDrawings} alt="Echo" />
+                <div className="info">
+                    <h2>You&lsquo;re ready to go!</h2>
+                    <p>Welcome to Echo! Your account has been created successfully and you&lsquo;re all set.</p>
+                </div>
+                <button type="button" className="primary-btn" onClick={() => openDesktopApp()}>
+                    Start chatting
+                </button>
+            </div>
+        )
+    };
 
-export default function VerifyAccountPage({ isSuccess }: VerifyAccountProps) {
-    console.log(isSuccess);
+    const renderError = () => {
+        return (
+            <div className="content-wrapper">
+                <Image src={Logo} alt="Echo" />
+                <div className="info">
+                    <h2>Something went wrong.</h2>
+                    <p>We couldn&lsquo;t complete your sign-up process. Please try again or contact support if the issue persists.</p>
+                </div>
+                <button type="button" className="primary-btn" onClick={() => requestNewVerificationToken()}>
+                    Retry
+                </button>
+            </div>
+        )
+    }; 
 
     return (
         <div className="screen">
-            <div className="content-wrapper">
-                <img src="/logo-with-drawing.png" alt="logo" />
-            </div>
+            {showLoader ? (
+                <div className="content-wrapper">
+                    <div className="loader" />
+                </div>
+            ) : (  showSuccess ? renderSuccess() : renderError() )}
         </div>
     );
 }

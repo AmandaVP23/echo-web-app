@@ -15,6 +15,7 @@ const eslintConfig = [
         rules: {
             indent: ['error', 4],
             quotes: ['error', 'single'],
+            'react-hooks/exhaustive-deps': 'off'
         }
     }
 ];

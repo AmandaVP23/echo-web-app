@@ -1,14 +1,14 @@
-:root {
+/* :root {
     --background: #ffffff;
     --foreground: #171717;
-}
+} */
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
     :root {
         --background: #0a0a0a;
         --foreground: #ededed;
     }
-}
+} */
 
 @font-face {
     font-family: 'Satoshi';
@@ -29,8 +29,10 @@ body {
 
 body {
     height: 100vh;
-    color: var(--foreground);
+    color: #0B0B0B;
     font-family: 'Satoshi', Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
@@ -73,11 +75,48 @@ a {
 }
 
 .content-wrapper {
-    display: block;
     background-color: #FFF;
     border-radius: 12px;
     padding: 60px;
-    max-width: 400px;
+    max-width: 520px;
+    width: 80%;
+    height: 70%;
+    max-height: 720px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+@media screen and (max-width: 500px) {
+    .content-wrapper {
+        padding: 30px;
+        justify-content: space-between;
+    }
+}
+
+.content-wrapper img {
+    max-width: 100%;
+}
+
+.content-wrapper .info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.content-wrapper .info h2 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+.content-wrapper div p {
+    font-size: 14px;
+    font-weight: 400;
+    color: #7A7A7A;
+    max-width: 320px;
+    text-align: center;
 }
 
 .primary-btn {
@@ -91,4 +130,5 @@ a {
     font-family: 'Satoshi', sans-serif;
     font-weight: 700;
     border-radius: 4px;
+    border: none;
 }
