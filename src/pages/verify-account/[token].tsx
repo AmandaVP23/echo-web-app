@@ -1,3 +1,5 @@
+'use client';
+
 import { API_URL } from '@/settings';
 import axios from 'axios';
 import { useParams } from 'next/navigation';
@@ -46,7 +48,7 @@ export default function VerifyAccountPage() {
             <div className="content-wrapper">
                 <Image src={LogoWithDrawings} alt="Echo" />
                 <div className="info">
-                    <h2>You&lsquo;re ready to go!</h2>
+                    <h2 className="title">You&lsquo;re ready to go!</h2>
                     <p>Welcome to Echo! Your account has been created successfully and you&lsquo;re all set.</p>
                 </div>
                 <button type="button" className="primary-btn" onClick={() => openDesktopApp()}>
@@ -61,7 +63,7 @@ export default function VerifyAccountPage() {
             <div className="content-wrapper">
                 <Image src={Logo} alt="Echo" />
                 <div className="info">
-                    <h2>Something went wrong.</h2>
+                    <h2 className="title">Something went wrong.</h2>
                     <p>We couldn&lsquo;t complete your sign-up process. Please try again or contact support if the issue persists.</p>
                 </div>
                 <button type="button" className="primary-btn" onClick={() => requestNewVerificationToken()}>
